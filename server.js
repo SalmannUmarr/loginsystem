@@ -65,6 +65,26 @@ app.post("/login", async (req, res) => {
 });
 
 
+// AUTHENTICATION MIDDLEWARE
+function authMiddleware(req, res, next) {
+
+    if (req.session.user) {
+        next();
+    } else {
+        res.send("Please login first");
+    }
+
+}
+
+
+// PROTECTED DASHBOARD ROUTE
+app.get("/dashboard", authMiddleware, (req, res) => {
+
+    res.send("Welcome " + req.session.user);
+
+});
+
+
 // start server
 app.listen(3000, () => {
     console.log("Server running on port 3000");
