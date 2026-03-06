@@ -77,10 +77,26 @@ function authMiddleware(req, res, next) {
 }
 
 
-// PROTECTED DASHBOARD ROUTE
+// PROTECTED DASHBOARD
 app.get("/dashboard", authMiddleware, (req, res) => {
 
     res.send("Welcome " + req.session.user);
+
+});
+
+
+// LOGOUT ROUTE
+app.get("/logout", (req, res) => {
+
+    req.session.destroy(function(err) {
+
+        if (err) {
+            res.send("Error logging out");
+        } else {
+            res.send("Logout successful");
+        }
+
+    });
 
 });
 
