@@ -24,7 +24,8 @@ app.get("/", (req, res) => {
     res.send("Login System Running");
 });
 
-// register route
+
+// REGISTER ROUTE
 app.post("/register", async (req, res) => {
 
     const username = req.body.username;
@@ -37,6 +38,32 @@ app.post("/register", async (req, res) => {
     res.send(result);
 
 });
+
+
+// LOGIN ROUTE
+app.post("/login", async (req, res) => {
+
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const user = new User(username, password);
+
+    const success = await user.login();
+
+    if (success) {
+
+        req.session.user = username;
+
+        res.send("Login successful");
+
+    } else {
+
+        res.send("Invalid credentials");
+
+    }
+
+});
+
 
 // start server
 app.listen(3000, () => {
